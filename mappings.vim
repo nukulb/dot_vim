@@ -159,6 +159,89 @@ vnoremap K k
 
 " Toggle paste mode with F5
 nnoremap <silent> <F5> :set paste!<CR>
-
 " Insert date
 inoremap ddate <C-R>=strftime("%Y-%m-%d")<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Moving around, tabs and buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Map space to / (search) and c-space to ? (backgwards search)
+map <space> /
+map <c-space> ?
+map <silent> <leader><cr> :noh<cr>
+
+" Smart way to move btw. windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+nnoremap <silent> <C-Right> <c-w>l
+nnoremap <silent> <C-Left> <c-w>h
+nnoremap <silent> <C-Up> <c-w>k
+nnoremap <silent> <C-Down> <c-w>j
+
+" Use the arrows to something usefull
+" Seems cool, but would need to get used to it :)
+map <S-Right> :bn<cr>
+map <S-Left> :bp<cr>
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbaaduu
+
+" Map find test file
+nnoremap  <silent> <C-,> :OT<cr>
+
+
+set guioptions-=r  "remove right-hand scroll bar
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => FuzzyFinder awesomeness
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:fuf_modesDisable = []
+let g:fuf_abbrevMap = {
+    \   '^vr:' : map(filter(split(&runtimepath, ','), 'v:val !~ "after$"'), 'v:val . ''/**/'''),
+    \   '^m0:' : [ '/mnt/d/0/', '/mnt/j/0/' ],
+    \ }
+let g:fuf_mrufile_maxItem = 300
+let g:fuf_mrucmd_maxItem = 400
+nnoremap <silent> <C-n>      :FufBuffer<CR>
+nnoremap <silent> <C-p>      :FufFileWithCurrentBufferDir<CR>
+nnoremap <silent> <C-f><C-p> :FufFileWithFullCwd<CR>
+nnoremap <silent> <C-f>p     :FufFile<CR>
+nnoremap <silent> <C-f><C-d> :FufDirWithCurrentBufferDir<CR>
+nnoremap <silent> <C-f>d     :FufDirWithFullCwd<CR>
+nnoremap <silent> <C-f>D     :FufDir<CR>
+"nnoremap <silent> <C-j>      :FufMruFile<CR>
+"nnoremap <silent> <C-k>      :FufMruCmd<CR>
+nnoremap <silent> <C-b>      :FufBookmark<CR>
+nnoremap <silent> <C-f><C-t> :FufTag<CR>
+nnoremap <silent> <C-f>t     :FufTag!<CR>
+noremap  <silent> g]         :FufTagWithCursorWord!<CR>
+nnoremap <silent> <C-f><C-f> :FufTaggedFile<CR>
+nnoremap <silent> <C-f><C-j> :FufJumpList<CR>
+nnoremap <silent> <C-f><C-g> :FufChangeList<CR>
+nnoremap <silent> <C-f><C-q> :FufQuickfix<CR>
+nnoremap <silent> <C-f><C-l> :FufLine<CR>
+nnoremap <silent> <C-f><C-h> :FufHelp<CR>
+nnoremap <silent> <C-f><C-b> :FufAddBookmark<CR>
+vnoremap <silent> <C-f><C-b> :FufAddBookmarkAsSelectedText<CR>
+nnoremap <silent> <C-f><C-e> :FufEditInfo<CR>
+nnoremap <silent> <C-f><C-r> :FufRenewCache<CR>
+nnoremap <silent> <C-e><C-f> :NERDTreeToggle<CR>
+nnoremap <silent> <C-e><C-t> :TlistToggle<CR>
+
+"tab space
+autocmd FileType * set tabstop=4|set shiftwidth=4
+
+"Delete trailing spaces
+autocmd BufWritePre * :%s/\s\+$//e
+
+"highlight the current line
+augroup CursorLine
+    au!
+    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    au WinLeave * setlocal nocursorline
+augroup END
+
+"hi CursorLine   cterm=NONE ctermbg=153 ctermfg=white guibg=155 guifg=white
+
